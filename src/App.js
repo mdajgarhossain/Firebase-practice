@@ -9,9 +9,13 @@ import firebaseConfig from './firebase.config';
 firebase.initializeApp(firebaseConfig);
 
 function App() {
+
+//Create an instance of the Google provider object
+const provider = new firebase.auth.GoogleAuthProvider();
+
   return (
     <div className="App">
-      
+      <button>Sign In</button>
     </div>
   );
 }
