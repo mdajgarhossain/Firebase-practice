@@ -45,7 +45,8 @@ function App() {
         isSignedIn: false,
         name: '',
         email: '',
-        photo: ''
+        photo: '',
+        isValid: false
       };
       setUser(signedOutUser);
       console.log(response);
@@ -55,19 +56,40 @@ function App() {
     })
   };
 
+  const is_valid_email = email => /(.+)@(.+){2,}\.(.+){2,}/.test(email);
+  const hasNumber = input => /\d/.test(input);
+
   //For password authentication
   const handleChange = event => {
     const newUserInfo = {
       ...user
     };
+    
+    // debugger;
+    //perform validation
+    let isValid = true;
+    if(event.target.name === 'email') {
+      isValid = is_valid_email(event.target.value);
+    }
+    if(event.target.name === 'password') {
+      isValid = event.target.value.length > 8 && hasNumber(event.target.value);
+    }
+
     newUserInfo[event.target.name] = event.target.value;
+    newUserInfo.isValid = isValid;
     setUser(newUserInfo);
     // console.log(newUserInfo);
     // console.log(event.target.name, event.target.value);
   };
 
-  const createAccount = () => {
-    console.log(user.email, user.password);
+  const createAccount = (event) => {
+    if(user.isValid) {
+      console.log(user.email, user.password);
+    }
+    else {
+      console.log('Form is not valid!');
+    }
+    event.preventDefault();
   };
 
   return (
@@ -86,12 +108,14 @@ function App() {
       }
 
       {/* password authentication */}
-      <h1>Our Custom Authentication</h1>
-      <input type="text" onBlur={handleChange} name="email" id="" placeholder="Enter your email"/>
-      <br/>
-      <input type="password" onBlur={handleChange} name="password" id="" placeholder="Enter your password"/>
-      <br/>
-      <button onClick={createAccount}>Create Account</button>
+      <form onSubmit={createAccount}>
+        <h1>Our Custom Authentication</h1>
+        <input type="text" onBlur={handleChange} name="email" id="" placeholder="Enter your email" required/>
+        <br/>
+        <input type="password" onBlur={handleChange} name="password" id="" placeholder="Enter your password" required/>
+        <br/>
+        <input type="submit" value="Create Account"/>
+      </form>
     </div>
   );
 }
