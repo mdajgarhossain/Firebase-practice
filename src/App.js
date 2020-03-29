@@ -55,6 +55,21 @@ function App() {
     })
   };
 
+  //For password authentication
+  const handleChange = event => {
+    const newUserInfo = {
+      ...user
+    };
+    newUserInfo[event.target.name] = event.target.value;
+    setUser(newUserInfo);
+    // console.log(newUserInfo);
+    // console.log(event.target.name, event.target.value);
+  };
+
+  const createAccount = () => {
+    console.log(user.email, user.password);
+  };
+
   return (
     <div className="App">
       {
@@ -69,6 +84,14 @@ function App() {
           <img src={user.photo} alt=""/>
         </div>
       }
+
+      {/* password authentication */}
+      <h1>Our Custom Authentication</h1>
+      <input type="text" onBlur={handleChange} name="email" id="" placeholder="Enter your email"/>
+      <br/>
+      <input type="password" onBlur={handleChange} name="password" id="" placeholder="Enter your password"/>
+      <br/>
+      <button onClick={createAccount}>Create Account</button>
     </div>
   );
 }
