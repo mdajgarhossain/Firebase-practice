@@ -111,15 +111,28 @@ function App() {
         setUser(createdUser);
       })
     }
-    else {
-      console.log('Form is not valid!');
-    }
     event.preventDefault();
     event.target.reset();
   };
 
   const signInUser = event => {
-    console.log('sign in');
+    if(user.isValid) {
+      firebase.auth().signInWithEmailAndPassword(user.email, user.password)
+      .then(response => {
+        console.log(response);
+        const createdUser = {...user};
+        createdUser.isSignedIn = true;
+        createdUser.error = '';
+        setUser(createdUser);
+      })
+      .catch(err => {
+        console.log(err.message);
+        const createdUser = {...user};
+        createdUser.isSignedIn = false;
+        createdUser.error = err.message;
+        setUser(createdUser);
+      })
+    }
     
     event.preventDefault();
     event.target.reset();
