@@ -60,6 +60,7 @@ function App() {
   const hasNumber = input => /\d/.test(input);
 
   //For password authentication
+  //Step 1:
   const handleChange = event => {
     const newUserInfo = {
       ...user
@@ -108,6 +109,7 @@ function App() {
       }
 
       {/* password authentication */}
+      {/* Step 1: */}
       <form onSubmit={createAccount}>
         <h1>Our Custom Authentication</h1>
         <input type="text" onBlur={handleChange} name="email" id="" placeholder="Enter your email" required/>
